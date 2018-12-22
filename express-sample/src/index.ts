@@ -9,7 +9,8 @@ import {
   GraphQLString,
   GraphQLEnumType,
   GraphQLID,
-  GraphQLScalarType
+  GraphQLScalarType,
+  GraphQLInputObjectType
 } from 'graphql';
 const mysql = require('mysql2/promise');
 
@@ -19,6 +20,8 @@ async function main() {
     user: 'mosaice',
     database: 'employees'
   });
+
+  // build Schema 无法直接处理嵌套对象操作（查询/更新）
 
   // const root = {
   //   employees: async config => {
@@ -126,6 +129,22 @@ async function main() {
     }
   });
 
+  const EmployeeInputType = new GraphQLInputObjectType({
+    name: 'EmployeeInput',
+    fields: {
+      emp_no: {
+        type: new GraphQLNonNull(GraphQLID)
+      },
+      first_name: {
+        type: GraphQLString,
+        defaultValue: 'li'
+      },
+      last_name: {
+        type: new GraphQLNonNull(GraphQLString)
+      }
+    }
+  });
+
   const RootType = new GraphQLObjectType({
     name: 'RootType',
     fields: {
@@ -152,8 +171,35 @@ async function main() {
     }
   });
 
+  const MutationType = new GraphQLObjectType({
+    name: 'Mutations',
+    fields: {
+      updateEmployee: {
+        type: EmployeeType,
+        args: {
+          employee: {
+            type: EmployeeInputType
+          }
+        },
+        async resolve(value, { employee: { first_name, last_name, emp_no } }) {
+          await connection.query(
+            'UPDATE `employees` SET `first_name` =  ?, `last_name` = ? WHERE `emp_no` = ?',
+            [first_name, last_name, emp_no]
+          );
+          const emp = await connection.query(
+            'Select * from `employees` WHERE `emp_no` = ?',
+            [emp_no]
+          );
+
+          return emp[0][0];
+        }
+      }
+    }
+  });
+
   const schema = new GraphQLSchema({
-    query: RootType
+    query: RootType,
+    mutation: MutationType
   });
 
   const app = express();
