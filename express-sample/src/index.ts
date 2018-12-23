@@ -12,6 +12,7 @@ import {
   GraphQLScalarType,
   GraphQLInputObjectType
 } from 'graphql';
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 const mysql = require('mysql2/promise');
 
 async function main() {
@@ -167,6 +168,22 @@ async function main() {
           );
           return data;
         }
+      },
+      employee: {
+        type: EmployeeType,
+        args: {
+          emp_no: {
+            type: GraphQLID
+          }
+        },
+        async resolve(_, { emp_no }) {
+          const [data] = await connection.query(
+            'select * from `employees`where `emp_no` = ?',
+            [emp_no]
+          );
+          console.log(data[0]);
+          return data[0];
+        }
       }
     }
   });
@@ -186,12 +203,12 @@ async function main() {
             'UPDATE `employees` SET `first_name` =  ?, `last_name` = ? WHERE `emp_no` = ?',
             [first_name, last_name, emp_no]
           );
-          const emp = await connection.query(
+          const [emp] = await connection.query(
             'Select * from `employees` WHERE `emp_no` = ?',
             [emp_no]
           );
 
-          return emp[0][0];
+          return emp[0];
         }
       }
     }
@@ -210,7 +227,12 @@ async function main() {
       graphiql: true
     })
   );
-  app.listen(4000, () => console.log('Now browse to localhost:4000/graphql'));
+  app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
+  app.listen(4000, () =>
+    console.log(
+      'Now browse to localhost:4000/graphql, relationship graph in localhost:4000/voyager'
+    )
+  );
 }
 
 main();
