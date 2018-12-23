@@ -1,4 +1,4 @@
-import { EmployeeExtended } from './model';
+import { EmployeeExtended, sequelize } from './model';
 import { resolver } from 'graphql-sequelize';
 
 export default {
@@ -19,8 +19,24 @@ export default {
   Employee: {
     salaries: resolver(EmployeeExtended.Salaries),
     titles: resolver(EmployeeExtended.Titles)
-  }
-  // Mutation: {
+  },
+  Mutation: {
+    async createEmployee(_, { input }) {
+      const {
+        dataValues: { max_no }
+      }: any = await EmployeeExtended.findOne({
+        attributes: [[sequelize.fn('MAX', sequelize.col('emp_no')), 'max_no']]
+      });
 
-  // }
+      return EmployeeExtended.create(
+        {
+          ...input,
+          emp_no: max_no + 1
+        },
+        {
+          include: [EmployeeExtended.Titles as any, EmployeeExtended.Salaries]
+        }
+      );
+    }
+  }
 };

@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize('employees', 'mosaice', '', {
+export const sequelize = new Sequelize('employees', 'mosaice', '', {
   host: 'localhost',
   dialect: 'mysql',
   define: {

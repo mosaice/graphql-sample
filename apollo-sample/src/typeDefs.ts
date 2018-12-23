@@ -49,8 +49,8 @@ export default gql`
     last_name: String!
     gender: Gender!
     hire_date: String!
-    salary: SalaryInput!
-    title: TitleInput!
+    salaries: [SalaryInput!]!
+    titles: [TitleInput!]!
   }
 
   type Query {
