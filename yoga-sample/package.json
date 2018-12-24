@@ -1,0 +1,27 @@
+{
+  "name": "yoga-sample",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "devDependencies": {
+    "@types/graphql": "^14.0.3",
+    "@types/node": "^10.12.18",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "class-validator": "^0.9.1",
+    "graphql": "^14.0.2",
+    "graphql-yoga": "^1.16.9",
+    "mysql": "^2.16.0",
+    "reflect-metadata": "^0.1.12",
+    "type-graphql": "^0.16.0",
+    "typedi": "^0.8.0",
+    "typeorm": "0.2.9",
+    "typeorm-typedi-extensions": "^0.2.1"
+  },
+  "scripts": {
+    "start": "node dist",
+    "prestart": "rm -rf dist && tsc",
+    "dev": "nodemon"
+  }
+}

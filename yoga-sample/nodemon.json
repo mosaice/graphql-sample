@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "TS_NODE_TYPE_CHECK=Y node --inspect ./index"
+}
