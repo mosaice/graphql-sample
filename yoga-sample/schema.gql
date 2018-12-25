@@ -14,7 +14,7 @@ type Employee {
   gender: Gender!
   hire_date: String!
   titles: [Title!]!
-  salaries: [Salary!]!
+  salaries(page: Int = 1, size: Int = 10): [Salary!]!
 }
 
 input EmployeeInput {
@@ -22,7 +22,7 @@ input EmployeeInput {
   first_name: String!
   last_name: String!
   gender: String!
-  hire_date: DateTime = "2018-12-24T11:10:10.385Z"
+  hire_date: DateTime = "2018-12-25T03:58:26.250Z"
   salaries: [SalaryInput!]!
   titles: [TitleInput!]!
 }
@@ -49,7 +49,7 @@ type Salary {
 }
 
 input SalaryInput {
-  from_date: DateTime = "2018-12-24T11:10:10.383Z"
+  from_date: DateTime = "2018-12-25T03:58:26.248Z"
   to_date: DateTime!
   salary: Float!
 }
@@ -62,7 +62,7 @@ type Title {
 }
 
 input TitleInput {
-  from_date: DateTime = "2018-12-24T11:10:10.385Z"
+  from_date: DateTime = "2018-12-25T03:58:26.250Z"
   to_date: DateTime!
   title: String!
 }

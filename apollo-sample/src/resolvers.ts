@@ -4,7 +4,13 @@ import { resolver } from 'graphql-sequelize';
 export default {
   Query: {
     employees: resolver(EmployeeExtended, {
-      list: true
+      list: true,
+      before: (findOptions, args) => {
+        findOptions.limit = args.limit;
+        findOptions.offset = (args.page - 1) * args.limit;
+        findOptions.order = [['emp_no', 'ASC']];
+        return findOptions;
+      }
     }),
     employee: resolver(EmployeeExtended, {
       before: (findOptions, args) => {
@@ -17,7 +23,15 @@ export default {
     })
   },
   Employee: {
-    salaries: resolver(EmployeeExtended.Salaries),
+    salaries: resolver(EmployeeExtended.Salaries, {
+      list: true,
+      before: (findOptions, args) => {
+        findOptions.limit = args.limit;
+        findOptions.offset = (args.page - 1) * args.limit;
+        findOptions.order = [['from_date', 'DESC']];
+        return findOptions;
+      }
+    }),
     titles: resolver(EmployeeExtended.Titles)
   },
   Mutation: {

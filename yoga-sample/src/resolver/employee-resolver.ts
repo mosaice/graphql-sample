@@ -20,7 +20,7 @@ import { Salary } from '../entity/Salary';
 import { EmployeeInput } from './input/employee-input';
 
 @ArgsType()
-class GetEmployeesArgs {
+class PaginationArgs {
   @Field(type => Int, { defaultValue: 1 })
   @Min(1)
   private page: number;
@@ -46,7 +46,7 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
   ) {}
 
   @Query(returns => [Employee])
-  async employees(@Args() { take, skip }: GetEmployeesArgs) {
+  async employees(@Args() { take, skip }: PaginationArgs) {
     return await this.employeeRepository.find({
       take: take(),
       skip: skip()
@@ -63,17 +63,21 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
   }
 
   @FieldResolver()
-  async salaries(@Root() emp: Employee) {
+  async salaries(
+    @Root() emp: Employee,
+    @Args() { take, skip }: PaginationArgs
+  ) {
     return await this.salaryRepository.find({
       where: {
         emp_no: emp.emp_no
-      }
+      },
+      take: take(),
+      skip: skip()
     });
   }
 
   @Mutation(returns => Employee)
   async addEmployee(@Arg('employee') emp: EmployeeInput) {
-    console.log(emp);
     const { max_no } = await this.employeeRepository
       .createQueryBuilder('emp')
       .select('MAX(emp.emp_no)', 'max_no')

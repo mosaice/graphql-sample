@@ -8,7 +8,7 @@ export default gql`
     last_name: String!
     gender: Gender!
     hire_date: String!
-    salaries: [Salary!]
+    salaries(limit: Int = 10, page: Int = 1): [Salary!]
     titles: [Title!]
   }
 
