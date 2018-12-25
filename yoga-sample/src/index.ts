@@ -25,6 +25,7 @@ async function bootstrap() {
       password: '',
       database: 'employees',
       cache: true,
+      logging: true,
       charset: 'utf8mb4',
       entities: ['src/entity/**/*.ts'],
       migrations: ['src/migration/**/*.ts'],
