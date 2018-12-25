@@ -22,9 +22,16 @@ input EmployeeInput {
   first_name: String!
   last_name: String!
   gender: String!
-  hire_date: DateTime = "2018-12-25T11:12:40.976Z"
+  hire_date: DateTime = "2018-12-25T18:31:06.946Z"
   salaries: [SalaryInput!]!
   titles: [TitleInput!]!
+}
+
+type EmployeeList {
+  size: Int!
+  current: Int!
+  total: Total!
+  employees: [Employee!]!
 }
 
 # man or woman
@@ -33,12 +40,19 @@ enum Gender {
   Female
 }
 
+type List {
+  size: Int!
+  current: Int!
+  total: Total!
+}
+
 type Mutation {
   addEmployee(employee: EmployeeInput!): Employee!
 }
 
 type Query {
   employees(page: Int = 1, size: Int = 10): [Employee!]!
+  getEmployees(page: Int = 1, size: Int = 10): EmployeeList!
 }
 
 type Salary {
@@ -49,7 +63,7 @@ type Salary {
 }
 
 input SalaryInput {
-  from_date: DateTime = "2018-12-25T11:12:40.973Z"
+  from_date: DateTime = "2018-12-25T18:31:06.946Z"
   to_date: DateTime!
   salary: Float!
 }
@@ -62,7 +76,12 @@ type Title {
 }
 
 input TitleInput {
-  from_date: DateTime = "2018-12-25T11:12:40.976Z"
+  from_date: DateTime = "2018-12-25T18:31:06.946Z"
   to_date: DateTime!
   title: String!
+}
+
+type Total {
+  counts: Int!
+  total_pages: Int!
 }

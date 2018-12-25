@@ -25,7 +25,7 @@ async function bootstrap() {
       password: '',
       database: 'employees',
       cache: true,
-      logging: true,
+      // logging: true,
       charset: 'utf8mb4',
       entities: ['src/entity/**/*.ts'],
       migrations: ['src/migration/**/*.ts'],
@@ -77,7 +77,7 @@ async function bootstrap() {
         validationRules: req => [
           queryComplexity({
             // The maximum allowed query complexity, queries above this threshold will be rejected
-            maximumComplexity: 8,
+            maximumComplexity: 200,
             // The query variables. This is needed because the variables are not available
             // in the visitor of the graphql-js library
             variables: req.query.variables,

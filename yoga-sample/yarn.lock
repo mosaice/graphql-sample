@@ -365,6 +365,11 @@ chalk@^2.3.0, chalk@^2.3.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
+class-transformer@^0.2.0:
+  version "0.2.0"
+  resolved "http://registry.npm.taobao.org/class-transformer/download/class-transformer-0.2.0.tgz#e54b34112e8ef7f913ef938c81fed8ed949fc9c7"
+  integrity sha1-5Us0ES6O9/kT75OMgf7Y7ZSfycc=
+
 class-validator@>=0.9.1, class-validator@^0.9.1:
   version "0.9.1"
   resolved "http://registry.npm.taobao.org/class-validator/download/class-validator-0.9.1.tgz#d60e58c5d14abca0a41bce38cf792ad4c46d1531"

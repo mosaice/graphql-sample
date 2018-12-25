@@ -9,6 +9,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "graphql": "^14.0.2",
     "graphql-query-complexity": "^0.2.2",

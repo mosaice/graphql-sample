@@ -4,9 +4,6 @@ import {
   Arg,
   Mutation,
   Args,
-  ArgsType,
-  Field,
-  Int,
   FieldResolver,
   Root,
   ResolverInterface,
@@ -15,26 +12,10 @@ import {
 import { Min, Max } from 'class-validator';
 import { Repository, getConnection } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Employee } from '../entity/Employee';
-import { Title } from '../entity/Title';
-import { Salary } from '../entity/Salary';
 import { EmployeeInput } from './input/employee-input';
 import { LogAccessMiddleware } from '../middleware';
-
-@ArgsType()
-class PaginationArgs {
-  @Field(type => Int, { defaultValue: 1 })
-  @Min(1)
-  private page: number;
-
-  @Field(type => Int, { defaultValue: 10 })
-  @Min(1)
-  @Max(50)
-  private size: number;
-
-  take = () => this.size;
-  skip = () => (this.page - 1) * this.size;
-}
+import { Title, Salary, Employee } from '../type';
+import { PaginationArgs } from './common/PaginationArgs';
 
 @Resolver(Employee)
 export class EmployeeResolver implements ResolverInterface<Employee> {
