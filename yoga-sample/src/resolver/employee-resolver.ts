@@ -9,7 +9,8 @@ import {
   Int,
   FieldResolver,
   Root,
-  ResolverInterface
+  ResolverInterface,
+  UseMiddleware
 } from 'type-graphql';
 import { Min, Max } from 'class-validator';
 import { Repository, getConnection } from 'typeorm';
@@ -18,6 +19,7 @@ import { Employee } from '../entity/Employee';
 import { Title } from '../entity/Title';
 import { Salary } from '../entity/Salary';
 import { EmployeeInput } from './input/employee-input';
+import { LogAccessMiddleware } from '../middleware';
 
 @ArgsType()
 class PaginationArgs {
@@ -54,6 +56,7 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
   }
 
   @FieldResolver()
+  @UseMiddleware(LogAccessMiddleware)
   async titles(@Root() emp: Employee) {
     return await this.titleRepository.find({
       where: {

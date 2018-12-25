@@ -3,5 +3,5 @@ Thumbs.db
 *.swp
 config.yml
 **/node_modules/
-.vscode
+**/.vscode
 **/dist/

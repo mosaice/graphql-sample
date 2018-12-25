@@ -1,7 +1,15 @@
-import { ObjectType, Field, Int, ID, registerEnumType } from 'type-graphql';
-import { Column, Entity, ManyToOne, PrimaryColumn, OneToMany } from 'typeorm';
+import {
+  ObjectType,
+  Field,
+  ID,
+  registerEnumType,
+  UseMiddleware,
+  Authorized
+} from 'type-graphql';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { Salary } from './Salary';
 import { Title } from './Title';
+import { LogAccessMiddleware } from '../middleware';
 
 export enum Gender {
   Male = 'M',
@@ -17,9 +25,11 @@ registerEnumType(Gender, {
 @ObjectType()
 export class Employee {
   @Field(type => ID)
+  @UseMiddleware(LogAccessMiddleware)
   @PrimaryColumn()
   readonly emp_no: number;
 
+  @Authorized()
   @Field(type => String)
   @Column({ type: 'date' })
   birth_date: Date;
@@ -32,19 +42,25 @@ export class Employee {
   @Column()
   last_name: string;
 
+  @Authorized('ADMIN')
   @Field(type => Gender)
   @Column('enum', { enum: Gender })
   gender: Gender;
 
+  @Authorized('REGULAR')
   @Field(type => String)
   @Column({ type: 'date' })
   hire_date: Date;
 
-  @Field(type => [Title])
+  @Field(type => [Title], {
+    complexity: 3
+  })
   // @OneToMany(type => Title, title => title.employee)
   titles: Title[];
 
-  @Field(type => [Salary])
+  @Field(type => [Salary], {
+    complexity: 3
+  })
   // @OneToMany(type => Salary, salary => salary.employee)
   salaries: Salary[];
 }
