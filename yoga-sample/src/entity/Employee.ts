@@ -10,6 +10,9 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { Salary } from './Salary';
 import { Title } from './Title';
 import { LogAccessMiddleware } from '../middleware';
+import { Department } from './Department';
+import { DepartmentEmployee } from './DepartmentEmployee';
+import { DepartmentManager } from './DepartmentManager';
 
 export enum Gender {
   Male = 'M',
@@ -63,4 +66,18 @@ export class Employee {
   })
   // @OneToMany(type => Salary, salary => salary.employee)
   salaries: Salary[];
+
+
+  @Field(type => [DepartmentEmployee], {
+    complexity: 3
+  })
+  // @OneToMany(type => Salary, salary => salary.employee)
+  departments: DepartmentEmployee[];
+
+
+  @Field(type => [DepartmentManager], {
+    complexity: 3
+  })
+  // @OneToMany(type => Salary, salary => salary.employee)
+  managed_departments: DepartmentManager[];
 }

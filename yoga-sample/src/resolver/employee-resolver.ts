@@ -14,7 +14,7 @@ import { Repository, getConnection } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { EmployeeInput } from './input/employee-input';
 import { LogAccessMiddleware } from '../middleware';
-import { Title, Salary, Employee } from '../type';
+import { Title, Salary, Employee, DepartmentEmployee, DepartmentManager } from '../advanced-type';
 import { PaginationArgs } from './common/PaginationArgs';
 
 @Resolver(Employee)
@@ -25,7 +25,11 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
     @InjectRepository(Title)
     private readonly titleRepository: Repository<Title>,
     @InjectRepository(Salary)
-    private readonly salaryRepository: Repository<Salary>
+    private readonly salaryRepository: Repository<Salary>,
+    @InjectRepository(DepartmentEmployee)
+    private readonly depERepository: Repository<DepartmentEmployee>,
+    @InjectRepository(DepartmentManager)
+    private readonly depMRepository: Repository<DepartmentManager>,
   ) {}
 
   @Query(returns => [Employee])
@@ -57,6 +61,28 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
       },
       take: take(),
       skip: skip()
+    });
+  }
+
+  @FieldResolver()
+  async departments(
+    @Root() emp: Employee,
+  ) {
+    return await this.depERepository.find({
+      where: {
+        emp_no: emp.emp_no
+      }
+    });
+  }
+
+  @FieldResolver()
+  async managed_departments(
+    @Root() emp: Employee,
+  ) {
+    return await this.depMRepository.find({
+      where: {
+        emp_no: emp.emp_no
+      }
     });
   }
 
