@@ -8,7 +8,7 @@ import {
 } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Employee, EmployeeList, List } from '../advanced-type';
+import { Employee, EmployeeList } from '../advanced-type';
 import { PaginationArgs } from './common/PaginationArgs';
 import { plainToClass } from 'class-transformer';
 import { createPaginationResolver } from './common/paginationCreator';

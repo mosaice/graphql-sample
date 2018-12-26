@@ -1,4 +1,4 @@
-import { List } from '../type';
+import { List } from '../advanced-type';
 
 type PaginationQuery = Readonly<{
   take: number;

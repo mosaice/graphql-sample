@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from 'type-graphql';
 import { Column, Entity, PrimaryColumn, JoinColumn } from 'typeorm';
-import { DepartmentEmployee } from './DepartmentEmployee';
+// import { DepartmentEmployee } from './DepartmentEmployee';
+import { DepartmentEmployList } from '../advanced-type/DepartmentEmployList';
 import { DepartmentManager } from './DepartmentManager';
 
 @Entity('departments')
@@ -14,8 +15,8 @@ export class Department {
   @Column()
   dept_name: string;
 
-  @Field(type => [DepartmentEmployee])
-  employees: DepartmentEmployee[];
+  @Field(type => DepartmentEmployList)
+  employees: DepartmentEmployList;
 
 
   @Field(type => [DepartmentManager])

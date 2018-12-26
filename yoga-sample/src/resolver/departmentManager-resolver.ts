@@ -6,10 +6,10 @@ import {
 } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Employee, DepartmentEmployee, Department } from '../../advanced-type';
+import { Employee, DepartmentManager, Department } from '../advanced-type';
 
-@Resolver(DepartmentEmployee)
-export class DepartmentEmployeeResolver implements ResolverInterface<DepartmentEmployee> {
+@Resolver(DepartmentManager)
+export class DepartmentManagerResolver implements ResolverInterface<DepartmentManager> {
   constructor(
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
@@ -21,18 +21,18 @@ export class DepartmentEmployeeResolver implements ResolverInterface<DepartmentE
 
   @FieldResolver()
   async employee(
-    @Root() depE: DepartmentEmployee,
+    @Root() emp: DepartmentManager,
   ) {
     return await this.employeeRepository.findOne({
       where: {
-        emp_no: depE.emp_no
+        emp_no: emp.emp_no
       }
     });
   }
 
   @FieldResolver()
   async department(
-    @Root() emp: DepartmentEmployee,
+    @Root() emp: DepartmentManager,
   ) {
     return await this.depRepository.findOne({
       where: {

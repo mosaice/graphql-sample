@@ -1,5 +1,5 @@
-import { ClassType, Resolver, FieldResolver, Int, Root } from 'type-graphql';
-import { List, Total } from '../../type';
+import { ClassType, Resolver, FieldResolver, Root } from 'type-graphql';
+import { List, Total } from '../../advanced-type';
 import { getRepository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 

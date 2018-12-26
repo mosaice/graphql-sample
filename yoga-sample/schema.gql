@@ -6,6 +6,46 @@
 # The javascript `Date` as string. Type represents date and time as the ISO Date string.
 scalar DateTime
 
+type Department {
+  dept_no: ID!
+  dept_name: String!
+  employees(page: Int = 1, size: Int = 10): DepartmentEmployList!
+  managers: [DepartmentManager!]!
+}
+
+type DepartmentEmployee {
+  emp_no: ID!
+  dept_no: ID!
+  to_date: String!
+  from_date: String!
+  employee: Employee!
+  department: Department!
+}
+
+type DepartmentEmployList {
+  size: Int!
+  current: Int!
+  total: Total!
+  dept_no: String!
+  employees: [DepartmentEmployee!]!
+}
+
+type DepartmentList {
+  size: Int!
+  current: Int!
+  total: Total!
+  departments: [Department!]!
+}
+
+type DepartmentManager {
+  emp_no: ID!
+  dept_no: ID!
+  to_date: String!
+  from_date: String!
+  employee: Employee!
+  department: Department!
+}
+
 type Employee {
   emp_no: ID!
   birth_date: String!
@@ -15,6 +55,8 @@ type Employee {
   hire_date: String!
   titles: [Title!]!
   salaries(page: Int = 1, size: Int = 10): [Salary!]!
+  departments: [DepartmentEmployee!]!
+  managed_departments: [DepartmentManager!]!
 }
 
 input EmployeeInput {
@@ -22,7 +64,7 @@ input EmployeeInput {
   first_name: String!
   last_name: String!
   gender: String!
-  hire_date: DateTime = "2018-12-25T18:31:06.946Z"
+  hire_date: DateTime = "2018-12-26T16:57:32.046Z"
   salaries: [SalaryInput!]!
   titles: [TitleInput!]!
 }
@@ -51,6 +93,7 @@ type Mutation {
 }
 
 type Query {
+  getDepartments(page: Int = 1, size: Int = 10): DepartmentList!
   employees(page: Int = 1, size: Int = 10): [Employee!]!
   getEmployees(page: Int = 1, size: Int = 10): EmployeeList!
 }
@@ -63,7 +106,7 @@ type Salary {
 }
 
 input SalaryInput {
-  from_date: DateTime = "2018-12-25T18:31:06.946Z"
+  from_date: DateTime = "2018-12-26T16:57:32.043Z"
   to_date: DateTime!
   salary: Float!
 }
@@ -76,7 +119,7 @@ type Title {
 }
 
 input TitleInput {
-  from_date: DateTime = "2018-12-25T18:31:06.946Z"
+  from_date: DateTime = "2018-12-26T16:57:32.045Z"
   to_date: DateTime!
   title: String!
 }
