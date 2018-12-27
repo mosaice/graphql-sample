@@ -9,16 +9,25 @@ import {
   ResolverInterface,
   UseMiddleware
 } from 'type-graphql';
-import { Min, Max } from 'class-validator';
 import { Repository, getConnection } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { EmployeeInput } from './input/employee-input';
 import { LogAccessMiddleware } from '../middleware';
-import { Title, Salary, Employee, DepartmentEmployee, DepartmentManager } from '../advanced-type';
-import { PaginationArgs } from './common/PaginationArgs';
+import {
+  Title,
+  Salary,
+  Employee,
+  DepartmentEmployee,
+  DepartmentManager
+} from '../advanced-type';
+import { PaginationArgs } from './common/Args';
+import { getOneResolver } from './common/getOneCreator';
+
+const GetEmployeeResolver = getOneResolver('Employee', 'emp_no', Employee);
 
 @Resolver(Employee)
-export class EmployeeResolver implements ResolverInterface<Employee> {
+export class EmployeeResolver extends GetEmployeeResolver
+  implements ResolverInterface<Employee> {
   constructor(
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
@@ -29,18 +38,20 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
     @InjectRepository(DepartmentEmployee)
     private readonly depERepository: Repository<DepartmentEmployee>,
     @InjectRepository(DepartmentManager)
-    private readonly depMRepository: Repository<DepartmentManager>,
-  ) {}
-
-  @Query(returns => [Employee])
-  async employees(@Args() { take, skip }: PaginationArgs) {
-    return await this.employeeRepository.find({
-      take: take(),
-      skip: skip()
-    });
+    private readonly depMRepository: Repository<DepartmentManager>
+  ) {
+    super();
   }
 
-  @FieldResolver()
+  // @Query(returns => [Employee])
+  // async employees(@Args() { take, skip }: PaginationArgs) {
+  //   return await this.employeeRepository.find({
+  //     take: take(),
+  //     skip: skip()
+  //   });
+  // }
+
+  @FieldResolver({ complexity: 10 })
   @UseMiddleware(LogAccessMiddleware)
   async titles(@Root() emp: Employee) {
     return await this.titleRepository.find({
@@ -50,7 +61,7 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
     });
   }
 
-  @FieldResolver()
+  @FieldResolver({ complexity: 10 })
   async salaries(
     @Root() emp: Employee,
     @Args() { take, skip }: PaginationArgs
@@ -65,9 +76,7 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
   }
 
   @FieldResolver()
-  async departments(
-    @Root() emp: Employee,
-  ) {
+  async departments(@Root() emp: Employee) {
     return await this.depERepository.find({
       where: {
         emp_no: emp.emp_no
@@ -76,9 +85,7 @@ export class EmployeeResolver implements ResolverInterface<Employee> {
   }
 
   @FieldResolver()
-  async managed_departments(
-    @Root() emp: Employee,
-  ) {
+  async managed_departments(@Root() emp: Employee) {
     return await this.depMRepository.find({
       where: {
         emp_no: emp.emp_no

@@ -64,7 +64,7 @@ input EmployeeInput {
   first_name: String!
   last_name: String!
   gender: String!
-  hire_date: DateTime = "2018-12-26T16:57:32.046Z"
+  hire_date: DateTime = "2018-12-27T04:10:22.927Z"
   salaries: [SalaryInput!]!
   titles: [TitleInput!]!
 }
@@ -93,8 +93,9 @@ type Mutation {
 }
 
 type Query {
+  getEmployee(emp_no: String!): Employee
+  getDepartment(dept_no: String!): Department
   getDepartments(page: Int = 1, size: Int = 10): DepartmentList!
-  employees(page: Int = 1, size: Int = 10): [Employee!]!
   getEmployees(page: Int = 1, size: Int = 10): EmployeeList!
 }
 
@@ -106,7 +107,7 @@ type Salary {
 }
 
 input SalaryInput {
-  from_date: DateTime = "2018-12-26T16:57:32.043Z"
+  from_date: DateTime = "2018-12-27T04:10:22.925Z"
   to_date: DateTime!
   salary: Float!
 }
@@ -119,7 +120,7 @@ type Title {
 }
 
 input TitleInput {
-  from_date: DateTime = "2018-12-26T16:57:32.045Z"
+  from_date: DateTime = "2018-12-27T04:10:22.926Z"
   to_date: DateTime!
   title: String!
 }

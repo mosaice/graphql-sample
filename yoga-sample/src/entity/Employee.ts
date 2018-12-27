@@ -10,7 +10,6 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { Salary } from './Salary';
 import { Title } from './Title';
 import { LogAccessMiddleware } from '../middleware';
-import { Department } from './Department';
 import { DepartmentEmployee } from './DepartmentEmployee';
 import { DepartmentManager } from './DepartmentManager';
 
@@ -56,28 +55,22 @@ export class Employee {
   hire_date: Date;
 
   @Field(type => [Title], {
-    complexity: 3
+    complexity: 10
   })
   // @OneToMany(type => Title, title => title.employee)
   titles: Title[];
 
   @Field(type => [Salary], {
-    complexity: 3
+    complexity: 10
   })
   // @OneToMany(type => Salary, salary => salary.employee)
   salaries: Salary[];
 
-
-  @Field(type => [DepartmentEmployee], {
-    complexity: 3
-  })
+  @Field(type => [DepartmentEmployee])
   // @OneToMany(type => Salary, salary => salary.employee)
   departments: DepartmentEmployee[];
 
-
-  @Field(type => [DepartmentManager], {
-    complexity: 3
-  })
+  @Field(type => [DepartmentManager])
   // @OneToMany(type => Salary, salary => salary.employee)
   managed_departments: DepartmentManager[];
 }

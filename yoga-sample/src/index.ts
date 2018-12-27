@@ -78,7 +78,7 @@ async function bootstrap() {
         validationRules: req => [
           queryComplexity({
             // The maximum allowed query complexity, queries above this threshold will be rejected
-            maximumComplexity: 200,
+            maximumComplexity: 30,
             // The query variables. This is needed because the variables are not available
             // in the visitor of the graphql-js library
             variables: req.query.variables,

@@ -9,7 +9,7 @@ import {
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Department, DepartmentList } from '../advanced-type';
-import { PaginationArgs } from './common/PaginationArgs';
+import { PaginationArgs } from './common/Args';
 import { plainToClass } from 'class-transformer';
 import { createPaginationResolver } from './common/paginationCreator';
 import { calcPage } from '../utils/calc';
@@ -37,7 +37,7 @@ export class DepartmentListResolver extends DepartmentPaginationResolver
     });
   }
 
-  @FieldResolver(of => [Department])
+  @FieldResolver(of => [Department], { complexity: 10 })
   async departments(@Root() root: DepartmentList) {
     return await this.depRepository.find(calcPage(root));
   }

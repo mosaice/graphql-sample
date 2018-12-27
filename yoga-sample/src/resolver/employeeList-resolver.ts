@@ -9,7 +9,7 @@ import {
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Employee, EmployeeList } from '../advanced-type';
-import { PaginationArgs } from './common/PaginationArgs';
+import { PaginationArgs } from './common/Args';
 import { plainToClass } from 'class-transformer';
 import { createPaginationResolver } from './common/paginationCreator';
 import { calcPage } from '../utils/calc';
@@ -37,7 +37,7 @@ export class EmployeeListResolver extends EmployeePaginationResolver
     });
   }
 
-  @FieldResolver(of => [Employee])
+  @FieldResolver(of => [Employee], { complexity: 10 })
   async employees(@Root() root: EmployeeList) {
     return await this.employeeRepository.find(calcPage(root));
   }

@@ -27,7 +27,7 @@ export class DepartmentListResolver extends DepartmentEmpoyleePaginationResolver
     super();
   }
 
-  @FieldResolver(of => [DepartmentEmployee])
+  @FieldResolver(of => [DepartmentEmployee], { complexity: 10 })
   async employees(@Root() root: DepartmentEmployList) {
     return await this.depRepository.find({
       where: {
