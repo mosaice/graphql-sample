@@ -8,9 +8,9 @@ import {
 } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { DepartmentEmployee, DepartmentEmployList } from '../advanced-type';
+import { DepartmentEmployee, DepartmentEmployList } from 'advanced-type';
 import { createPaginationResolver } from './common/paginationCreator';
-import { calcPage } from '../utils/calc';
+import { calcPage } from 'utils/calc';
 
 const DepartmentEmpoyleePaginationResolver = createPaginationResolver(
   DepartmentEmployList,

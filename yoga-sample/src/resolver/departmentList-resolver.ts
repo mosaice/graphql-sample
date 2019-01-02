@@ -8,11 +8,11 @@ import {
 } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Department, DepartmentList } from '../advanced-type';
+import { Department, DepartmentList } from 'advanced-type';
 import { PaginationArgs } from './common/Args';
 import { plainToClass } from 'class-transformer';
 import { createPaginationResolver } from './common/paginationCreator';
-import { calcPage } from '../utils/calc';
+import { calcPage } from 'utils/calc';
 
 const DepartmentPaginationResolver = createPaginationResolver(
   DepartmentList,

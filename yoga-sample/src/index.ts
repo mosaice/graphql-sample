@@ -17,6 +17,9 @@ TypeORM.useContainer(Container);
 async function bootstrap() {
   try {
     // create TypeORM connection
+    const isProd = process.env.NODE_ENV === 'production';
+    const SOURCE_PATH = isProd ? 'dist' : 'src';
+    const file = isProd ? 'js' : 'ts';
     await TypeORM.createConnection({
       type: 'mysql',
       host: 'localhost',
@@ -25,12 +28,12 @@ async function bootstrap() {
       password: '',
       database: 'employees',
       cache: true,
-      logging: true,
+      logging: !isProd,
       acquireTimeout: 1000 * 20,
       charset: 'utf8mb4',
-      entities: ['src/entity/**/*.ts'],
-      migrations: ['src/migration/**/*.ts'],
-      subscribers: ['src/subscriber/**/*.ts'],
+      entities: [`${SOURCE_PATH}/entity/**/*.${file}`],
+      migrations: [`${SOURCE_PATH}/migration/**/*.${file}`],
+      subscribers: [`${SOURCE_PATH}/subscriber/**/*.${file}`],
       cli: {
         entitiesDir: 'src/entity',
         migrationsDir: 'src/migration',
@@ -40,8 +43,8 @@ async function bootstrap() {
 
     // build TypeGraphQL executable schema
     const schema = await TypeGraphQL.buildSchema({
-      resolvers: [`${__dirname}/**/*-resolver.ts`],
-      emitSchemaFile: true,
+      resolvers: [`${__dirname}/**/*-resolver.${file}`],
+      emitSchemaFile: !isProd,
       authChecker,
       globalMiddlewares: [ErrorInterceptor, DataInterceptor, ResolveTime]
     });
@@ -70,7 +73,7 @@ async function bootstrap() {
       {
         formatError: TypeGraphQL.formatArgumentValidationError,
         cacheControl: true,
-        debug: true,
+        debug: !isProd,
         formatResponse: res => {
           res.code = res.errors ? 500 : 200;
           return res;
@@ -86,7 +89,9 @@ async function bootstrap() {
             // Will be invoked weather the query is rejected or not
             // This can be used for logging or to implement rate limiting
             onComplete: (complexity: number) => {
-              console.log('Query Complexity:', complexity);
+              if (!isProd) {
+                console.log('Query Complexity:', complexity);
+              }
             },
             estimators: [
               // Using fieldConfigEstimator is mandatory to make it work with type-graphql

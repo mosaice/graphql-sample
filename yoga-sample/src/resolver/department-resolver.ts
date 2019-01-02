@@ -11,7 +11,7 @@ import {
   DepartmentEmployList,
   DepartmentManager,
   Department
-} from '../advanced-type';
+} from 'advanced-type';
 import { PaginationArgs } from './common/Args';
 import { plainToClass } from 'class-transformer';
 import { getOneResolver } from './common/getOneCreator';

@@ -8,15 +8,16 @@
     "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
-      "*": ["node_modules/*", "src/*", "*"]
+      "*": ["node_modules/*", "./*", "*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "esModuleInterop": true,
-    // "strict": true,
     "noImplicitAny": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowJs": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

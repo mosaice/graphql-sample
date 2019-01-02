@@ -12,14 +12,14 @@ import {
 import { Repository, getConnection } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { EmployeeInput } from './input/employee-input';
-import { LogAccessMiddleware } from '../middleware';
+import { LogAccessMiddleware } from 'middleware';
 import {
   Title,
   Salary,
   Employee,
   DepartmentEmployee,
   DepartmentManager
-} from '../advanced-type';
+} from 'advanced-type';
 import { PaginationArgs } from './common/Args';
 import { getOneResolver } from './common/getOneCreator';
 

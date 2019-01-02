@@ -9,7 +9,7 @@ import {
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { Salary } from './Salary';
 import { Title } from './Title';
-import { LogAccessMiddleware } from '../middleware';
+import { LogAccessMiddleware } from 'middleware';
 import { DepartmentEmployee } from './DepartmentEmployee';
 import { DepartmentManager } from './DepartmentManager';
 

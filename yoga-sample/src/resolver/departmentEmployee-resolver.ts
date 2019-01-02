@@ -1,7 +1,7 @@
 import { Resolver, FieldResolver, Root, ResolverInterface } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Employee, DepartmentEmployee, Department } from '../advanced-type';
+import { Employee, DepartmentEmployee, Department } from 'advanced-type';
 
 @Resolver(DepartmentEmployee)
 export class DepartmentEmployeeResolver
