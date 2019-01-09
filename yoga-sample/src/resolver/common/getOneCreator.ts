@@ -1,7 +1,5 @@
 import { ClassType, Resolver, Query, Arg } from 'type-graphql';
-import { List, Total } from '../../advanced-type';
 import { getRepository } from 'typeorm';
-import { plainToClass } from 'class-transformer';
 
 export function getOneResolver<P extends ClassType, T extends ClassType>(
   suffix: string,
